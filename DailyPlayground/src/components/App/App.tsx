@@ -36,12 +36,11 @@ declare const global: { HermesInternal: null | {} };
 // Silence an annoying warning about a harmless require cycle in React Native's
 // fetch library.
 // See https://github.com/facebook/react-native/issues/23130.
-LogBox.ignoreLogs(['Require cycle: node_modules']);
+LogBox.ignoreLogs(['Require cycle: node_modules', 'new NativeEventEmitter']);
 // After upgrading to RN 0.66, app has started to show a warning about the constructor
 // of NativeEventEmitter been called with a non-null argument without the required removeListeners.
 // See https://github.com/ocetnik/react-native-background-timer/issues/366
 // Silencing the warning while It is not fixed by react-native-background-timer
-LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 // Uncomment during development to temporarily intentionally ignore errors,
 // preventing the red screen from popping up
@@ -295,6 +294,7 @@ const App = () => {
                 source={require('../../../assets/logo.png')}
               />
               <View style={styles.buttonContainer}>
+<<<<<<< HEAD:DailyPlayground/src/components/App/App.tsx
                 <Text style={styles.bodyText}>
                   To get started, enter an existing room URL or create a
                   temporary demo room
@@ -355,6 +355,8 @@ const App = () => {
                     </Text>
                   </View>
                 )}
+=======
+>>>>>>> 63de21a (UI cleanup):DailyPlayground/components/App/App.tsx
                 {roomUrlFieldValue ? (
                   <CopyLinkButton roomUrl={roomUrlFieldValue} />
                 ) : (

@@ -23,7 +23,7 @@ const CopyLinkButton = (props: Props) => {
       robotId="robots-copy-room-link"
       onPress={copy}
       disabled={showCopied}
-      label={showCopied ? 'Copied!' : 'Copy room link'}
+      label={showCopied ? 'Copied!' : 'Copy room link to invite friends'}
     />
   );
 };
