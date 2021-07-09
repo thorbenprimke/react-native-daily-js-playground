@@ -16,7 +16,7 @@ type Props = {
   muted?: boolean;
   robotId?: string;
   text: string;
-  type: 'mic' | 'camera' | 'leave';
+  type: 'mic' | 'camera' | 'leave' | 'stream';
 };
 export default function TrayButton({
   disabled = false,
@@ -30,6 +30,7 @@ export default function TrayButton({
 
   let source: NodeRequire = require('../../../assets/leave.png');
   const isLeaveButton: boolean = type === 'leave';
+  const isStreamButton: boolean = type === 'stream';
   if (isLeaveButton) {
     robotId = 'robots-leave-button';
   } else if (type === 'camera') {
@@ -42,8 +43,11 @@ export default function TrayButton({
     source = muted
       ? require('../../../assets/mic-off.png')
       : require('../../../assets/mic.png');
+  } else if (type === 'stream') {
+    source = muted
+      ? require('../../assets/stream-off.png')
+      : require('../../assets/stream.png');
   }
-
   return (
     <TouchableWithoutFeedback
       onPress={onPress}
@@ -65,7 +69,10 @@ export default function TrayButton({
         <Text
           style={[
             styles.controlText,
-            (muted || isLeaveButton) && styles.offText,
+            ((!isStreamButton && muted) ||
+              isLeaveButton ||
+              (isStreamButton && !muted)) &&
+              styles.offText,
           ]}
         >
           {text}

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Config from 'react-native-config';
 import {
   SafeAreaView,
   StyleSheet,
@@ -62,7 +63,10 @@ const App = () => {
   const [callObject, setCallObject] = useState<DailyCall | null>(null);
   const [roomUrlFieldValue, setRoomUrlFieldValue] = useState<
     string | undefined
-  >(undefined);
+  >(Config.DAILY_CALL_URL);
+  const [roomToken, setRoomToken] = useState<string | undefined>(
+    Config.DAILY_CALL_TOKEN
+  );
   const orientation = useOrientation();
 
   /**
@@ -173,12 +177,13 @@ const App = () => {
     if (!callObject || !roomUrl) {
       return;
     }
-    callObject.join({ url: roomUrl }).catch((_) => {
+    console.log('joining: ', roomUrl, roomToken);
+    callObject.join({ url: roomUrl, token: roomToken }).catch((_) => {
       // Doing nothing here since we handle fatal join errors in another way,
       // via our listener attached to the 'error' event
     });
     setAppState(AppState.Joining);
-  }, [callObject, roomUrl]);
+  }, [callObject, roomUrl, roomToken]);
 
   /**
    * Create the callObject as soon as we have a roomUrl.
@@ -325,6 +330,22 @@ const App = () => {
                       />
                     </TouchableWithoutFeedback>
                   )}
+                </View>
+                <View style={styles.textRow}>
+                  <TextInput
+                    style={styles.roomUrlField}
+                    placeholder="Token"
+                    placeholderTextColor={theme.colors.greyDark}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="url"
+                    editable={isAppStateIdle}
+                    value={roomToken}
+                    onChangeText={(text) => {
+                      setRoomToken(text);
+                      setRoomCreateError(false);
+                    }}
+                  />
                 </View>
                 {roomCreateError && (
                   <View style={styles.textRow}>
