@@ -39,6 +39,10 @@ type Props = {
 
 export const TRAY_HEIGHT = 90;
 
+const rtmpUrl = '';
+const streamKey = '';
+const STREAM_URL = `${rtmpUrl}/app/${streamKey}`;
+
 export default function Tray({ disabled, onClickLeaveCall }: Props) {
   const callObject = useCallObject();
   const [isCameraMuted, setCameraMuted] = useState(false);
@@ -59,9 +63,9 @@ export default function Tray({ disabled, onClickLeaveCall }: Props) {
       callObject?.stopLiveStreaming();
       setStreaming(false);
     } else {
-      console.log('Starting live stream to: ' + Config.STREAM_URL);
+      console.log('Starting live stream to: ' + STREAM_URL);
       callObject?.startLiveStreaming({
-        rtmpUrl: Config.STREAM_URL,
+        rtmpUrl: STREAM_URL,
         width: 1280,
         height: 720,
         layout: {
@@ -144,7 +148,7 @@ export default function Tray({ disabled, onClickLeaveCall }: Props) {
           text={isCameraMuted ? 'Turn on' : 'Turn off'}
           type="camera"
         />
-        {!!Config.STREAM_URL && !!Config.DAILY_CALL_TOKEN && (
+        {!!STREAM_URL && (
           <TrayButton
             disabled={disabled}
             onPress={toggleStreaming}

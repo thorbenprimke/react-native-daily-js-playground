@@ -62,10 +62,7 @@ const App = () => {
   const [callObject, setCallObject] = useState<DailyCall | null>(null);
   const [roomUrlFieldValue, setRoomUrlFieldValue] = useState<
     string | undefined
-  >(Config.DAILY_CALL_URL);
-  const [roomToken, setRoomToken] = useState<string | undefined>(
-    Config.DAILY_CALL_TOKEN
-  );
+  >('');
   const orientation = useOrientation();
 
   /**
@@ -176,13 +173,13 @@ const App = () => {
     if (!callObject || !roomUrl) {
       return;
     }
-    console.log('joining: ', roomUrl, roomToken);
-    callObject.join({ url: roomUrl, token: roomToken }).catch((_) => {
+    console.log('joining: ', roomUrl);
+    callObject.join({ url: roomUrl }).catch((_) => {
       // Doing nothing here since we handle fatal join errors in another way,
       // via our listener attached to the 'error' event
     });
     setAppState(AppState.Joining);
-  }, [callObject, roomUrl, roomToken]);
+  }, [callObject, roomUrl]);
 
   /**
    * Create the callObject as soon as we have a roomUrl.
@@ -294,69 +291,6 @@ const App = () => {
                 source={require('../../../assets/logo.png')}
               />
               <View style={styles.buttonContainer}>
-<<<<<<< HEAD:DailyPlayground/src/components/App/App.tsx
-                <Text style={styles.bodyText}>
-                  To get started, enter an existing room URL or create a
-                  temporary demo room
-                </Text>
-                <View
-                  style={[
-                    styles.demoInputContainer,
-                    !!roomUrlFieldValue && styles.shortContainer,
-                  ]}
-                >
-                  <TextInput
-                    style={styles.roomUrlField}
-                    placeholder="Room URL"
-                    placeholderTextColor={theme.colors.greyDark}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    keyboardType="url"
-                    {...robotID('robots-room-url')}
-                    editable={isAppStateIdle}
-                    value={roomUrlFieldValue}
-                    onChangeText={(text) => {
-                      setRoomUrlFieldValue(text);
-                      setRoomCreateError(false);
-                    }}
-                  />
-                  {!!roomUrlFieldValue && (
-                    <TouchableWithoutFeedback
-                      onPress={() => setRoomUrlFieldValue(undefined)}
-                    >
-                      <Image
-                        style={styles.closeIcon}
-                        source={require('../../../assets/close.png')}
-                      />
-                    </TouchableWithoutFeedback>
-                  )}
-                </View>
-                <View style={styles.textRow}>
-                  <TextInput
-                    style={styles.roomUrlField}
-                    placeholder="Token"
-                    placeholderTextColor={theme.colors.greyDark}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    keyboardType="url"
-                    editable={isAppStateIdle}
-                    value={roomToken}
-                    onChangeText={(text) => {
-                      setRoomToken(text);
-                      setRoomCreateError(false);
-                    }}
-                  />
-                </View>
-                {roomCreateError && (
-                  <View style={styles.textRow}>
-                    <Image source={require('../../../assets/error.png')} />
-                    <Text style={styles.errorText}>
-                      Oops! A room couldn't be created.
-                    </Text>
-                  </View>
-                )}
-=======
->>>>>>> 63de21a (UI cleanup):DailyPlayground/components/App/App.tsx
                 {roomUrlFieldValue ? (
                   <CopyLinkButton roomUrl={roomUrlFieldValue} />
                 ) : (

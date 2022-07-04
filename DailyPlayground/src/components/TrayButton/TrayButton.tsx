@@ -45,8 +45,8 @@ export default function TrayButton({
       : require('../../../assets/mic.png');
   } else if (type === 'stream') {
     source = muted
-      ? require('../../assets/stream-off.png')
-      : require('../../assets/stream.png');
+      ? require('../../../assets/stream-off.png')
+      : require('../../../assets/stream.png');
   }
   return (
     <TouchableWithoutFeedback
